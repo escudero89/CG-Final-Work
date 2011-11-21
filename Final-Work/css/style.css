@@ -1,3 +1,9 @@
+/* COLORES: 
+ * blanco: #DFEFF2
+ * gris: #B8D3D9
+ * dark-gris: #6C898C
+ * dark: #1C2526
+ * colorful: #F26E50
 /* =============================================================================
    HTML5 element display
    ========================================================================== */
@@ -20,7 +26,7 @@ html {
 }
 
 body { 
-	background-color: #ece3e3;
+	background-color: #DFEFF2;
 	font-size: 13px; 
 	height: 100%;
 	line-height: 1.231; 
@@ -29,7 +35,7 @@ body {
  
 body, button, input, select, textarea { 
 	font-family: verdana, sans-serif; 
-	color: white; 
+	color: #1C2526; 
 }
 
 #container {
@@ -40,15 +46,41 @@ body, button, input, select, textarea {
 }
 
 div#main {
+	height: 100%;
 	overflow:auto;
-	padding-bottom: 100px;
+	padding-top: 70px;
+	padding-bottom: 50px;
+}
+
+div #diapositiva {
+	background-color: #B8D3D9;
+	border: 1px solid #6C898C;
+	border-radius: 20px;
+	height: auto;
+	margin: 22px;
+}
+
+header {
+	background-color: #B8D3D9;
+	border-bottom: 1px solid #6C898C;
+	clear:both;
+	height: 70px;
+	margin-bottom: -70px; /* negative value of footer height */
+	text-align: center;
+	position: relative;
+}
+
+header h1 {
+	padding-top: 15px;
+	margin: 0px;
 }
 
 footer {
-	background-color: #9b9173;
-	border-top: 1px solid #0c2031;
+	background-color: #B8D3D9;
+	border-top: 1px solid #6C898C;
 	clear:both;
-	height: 100px;
-	margin-top: -100px; /* negative value of footer height */
+	height: 50px;
+	margin-top: -50px; /* negative value of footer height */
+	text-align: center;
 	position: relative;
 }
