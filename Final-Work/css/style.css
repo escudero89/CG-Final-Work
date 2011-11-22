@@ -58,6 +58,7 @@ div #diapositiva {
 	border-radius: 20px;
 	height: auto;
 	margin: 22px;
+	padding: 0 20px;
 }
 
 header {
