@@ -1,4 +1,5 @@
-var rRotacion = 0; // para la rotacion
+var carJson, // mi variable global json para el auto
+	rRotacion = 0; // para la rotacion
 
 // Declaramos variables globales para losbuffers
 var pieceVertexPositionBuffer,	

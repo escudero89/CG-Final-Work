@@ -24,11 +24,11 @@ function cambiarDiapositiva(incremento) {
 	    });	
 	    
 	    $("#diapositiva").fadeIn('normal');
-	});		
+	}
 }
 
 cambiarDiapositiva(true);
-
+alert("hola");
 $(document).keydown(function(e){
     if (e.keyCode === 37) { 
        cambiarDiapositiva(false);

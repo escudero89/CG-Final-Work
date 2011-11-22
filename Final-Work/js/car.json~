@@ -1,9 +1,4 @@
 {
-	"orden":[
-	  "page/intro.html",
-	  "page/example.html",
-	  "page/webgl.html"
-	],
 	"iluminacion":{
 		"ambiente":[0.2, 0.2, 0.2],
 		

@@ -48,7 +48,6 @@ body, button, input, select, textarea {
 div#main {
 	height: 100%;
 	overflow:auto;
-	padding-top: 70px;
 	padding-bottom: 50px;
 }
 
@@ -61,21 +60,6 @@ div #diapositiva {
 	padding: 0 20px;
 }
 
-header {
-	background-color: #B8D3D9;
-	border-bottom: 1px solid #6C898C;
-	clear:both;
-	height: 70px;
-	margin-bottom: -70px; /* negative value of footer height */
-	text-align: center;
-	position: relative;
-}
-
-header h1 {
-	padding-top: 15px;
-	margin: 0px;
-}
-
 footer {
 	background-color: #B8D3D9;
 	border-top: 1px solid #6C898C;
@@ -85,3 +69,6 @@ footer {
 	text-align: center;
 	position: relative;
 }
+
+/* Para templates */
+
