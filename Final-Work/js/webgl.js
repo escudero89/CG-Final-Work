@@ -117,178 +117,18 @@ function setMatrixUniforms() {
  * DIVERTIDO.
  ****************************************************************************/
 
-// Declaramos dos variables globales para mantener los buffer
-var triangleVertexPositionBuffer;
-var triangleVertexColorBuffer;
-
-var squareVertexPositionBuffer;
-var squareVertexColorBuffer; 
-
-// Para la animacion
-var rTri = 0, rSquare = 0;
-
-function initBuffers() {
-	// Creamos un buffer para la posicion del triangulo.
-	triangleVertexPositionBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-
-	// Definimos los vertices del triangulo
-	var vertices = [
-		0.0, 1.0, 0.0,
-		-1.0, -1.0, 0.0,
-		1.0, -1.0, 0.0
-			];
-
-	// Creamos un objeto del tipo Float32Array basado en nuestra lista de
-	// vertices en javascript, y le decimos a weGL que la use para rellenar el
-	// buffer actual.
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-
-	triangleVertexPositionBuffer.itemSize = 3;
-	triangleVertexPositionBuffer.numItems = 3;
-
-	// Especificamos sus colores
-	triangleVertexColorBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-	var colors = [
-		1.0, 0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0, 1.0,
-		0.0, 0.0, 1.0, 1.0
-			];
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-	triangleVertexColorBuffer.itemSize = 4;
-	triangleVertexColorBuffer.numItems = 3;
-
-	// Ahora vamos a por el cuadrado
-	squareVertexPositionBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-
-	vertices = [
-		1.0,  1.0,  0.0,
-		-1.0,  1.0,  0.0,
-		1.0, -1.0,  0.0,
-		-1.0, -1.0,  0.0
-			];
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-
-	squareVertexPositionBuffer.itemSize = 3;
-	squareVertexPositionBuffer.numItems = 4;
-
-	// Color en el cuadrado
-	squareVertexColorBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-	colors = []
-		for (var i=0; i < 4; i++) {
-			colors = colors.concat([0.5, 0.5, 1.0, 1.0]);
-		}
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-	squareVertexColorBuffer.itemSize = 4;
-	squareVertexColorBuffer.numItems = 4;
-}
-
-// Hacemos la funcion que dibuja la escena
-function drawScene() {
-	// Decimos a webGL sobre el size del canvas que estamos usando
-	gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-	// Here we’re setting up the perspective with which we want to view the
-	// scene.  By default, WebGL will draw things using orthographic
-	// projection. Para esta escena, decimos que nuestro field of view es de
-	// 45º, y que no queremos ver cosas que estan mas cerca de 0.1 unidades de
-	// nuestro viewpoint. Y no queremos ver cosas mas lejos que 100 unidades.
-
-	mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
-
-	// Establecemos parametros de dibujo.
-	mat4.identity(mvMatrix);
-	mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
-	
-	// Para la animacion
-	mvPushMatrix();
-	mat4.rotate(mvMatrix, degToRad(rTri), [0, 1, 0]);
-
-	// Dibujamos. En orden de usar un buffer, lo especificamos con
-	// gl.bindBuffer, y luego llamamos el codigo que lo opera.
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 
-			triangleVertexPositionBuffer.itemSize, 
-			gl.FLOAT, false, 0, 0);
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 
-			triangleVertexColorBuffer.itemSize, 
-			gl.FLOAT, false, 0, 0);
-
-	setMatrixUniforms();
-	
-	// Dibuja el array de vertices que te di como triangulos
-	gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
-	
-	mvPopMatrix();
-
-	// Ahora vamos a por el cuadrado
-	mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
-	
-	// Para la animacion
-	mvPushMatrix();
-	mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 
-			squareVertexPositionBuffer.itemSize, 
-			gl.FLOAT, false, 0, 0);
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 
-			squareVertexColorBuffer.itemSize, 
-			gl.FLOAT, false, 0, 0);
-
-	setMatrixUniforms();
-
-	// Dibujamos el cuadrado usando triangle_strip
-	gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
-
-	mvPopMatrix();
-
-}
-
-// Animacion 
-
-var lastTime = 0;
-function animate() {
-	var timeNow = new Date().getTime();
-	if (lastTime != 0) {
-		var elapsed = timeNow - lastTime;
-
-		rTri += (90 * elapsed) / 1000.0;
-		rSquare += (75 * elapsed) / 1000.0;
-	}
-	lastTime = timeNow;
-}
-
-
-// Se encarga de la animacion
-function tick() {
-	requestAnimFrame(tick);
-	drawScene();
-	animate();
-}
-
 // Inicializa todo. Es como el main()
 function webGLStart() {
 	// Vamos a inicializar WebGL
 	var canvas = document.getElementById("my-canvas");
+
+	// Chequea por errores
+ 	ctx = WebGLDebugUtils.makeDebugContext(canvas.getContext("experimental-webgl"));
+	
+	// Inicio los canvas y los shaders
 	initGL(canvas);
 	initShaders();
-	initBuffers();
-
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
-	gl.enable(gl.DEPTH_TEST);
-
-	// En vez de llamar a drawScene(), llamamos a tick() que se encargara de
-	// darle movimiento a las cosas.
-	tick();
+	
+	// Dibujo
+	drawCarScene();
 }
