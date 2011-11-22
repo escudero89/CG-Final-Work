@@ -1,10 +1,45 @@
-var carJson; // mi variable global json para el auto
+var carJson, // mi variable global json para el auto
+	rRotacion = 0; // para la rotacion
 
 // Declaramos variables globales para losbuffers
 var pieceVertexPositionBuffer,	
 	pieceVertexColorBuffer,
 	pieceHasIndex = false, // para el indice de elementos
-	pieceVertexIndexBuffer;
+	pieceVertexIndexBuffer,
+	/// normales para la iluminacion
+	pieceVertexNormalBuffer;
+
+/// SE ENCARGA DE LA ILUMINACION
+function lighting() {
+	
+	// seteamos la luz ambiente
+	gl.uniform3f(
+        shaderProgram.ambientColorUniform,
+        carJson["iluminacion"]["ambiente"][0],
+        carJson["iluminacion"]["ambiente"][1],
+        carJson["iluminacion"]["ambiente"][2]
+      );
+     
+	// y la difusa o direccional
+	gl.uniform3f(
+		shaderProgram.directionalColorUniform,
+		carJson["iluminacion"]["difusa"][0],
+        carJson["iluminacion"]["difusa"][1],
+        carJson["iluminacion"]["difusa"][2]
+	);
+      
+	var lightingDirection = [
+		carJson["iluminacion"]["direccion"][0],
+        carJson["iluminacion"]["direccion"][1],
+        carJson["iluminacion"]["direccion"][2]
+	];
+	
+	var adjustedLD = vec3.create();
+	vec3.normalize(lightingDirection, adjustedLD);
+	vec3.scale(adjustedLD, -1);
+	
+	gl.uniform3fv(shaderProgram.lightingDirectionUniform, adjustedLD);
+}
 
 function drawPiece(nombre) {
 	
@@ -55,7 +90,26 @@ function drawPiece(nombre) {
 	pieceVertexColorBuffer.itemSize = 4; // por rgba.
 	pieceVertexColorBuffer.numItems = colors.length / 4;
 	
-	/// Hora de definir elementos
+	/// NORMALES
+	pieceVertexNormalBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexNormalBuffer);
+	
+	var vertexNormals = [];
+	
+	for (i = 0; i < iHasta; i += 1) {
+		for (j = 0; j < iHasta; j += 1) {
+			vertexNormals = vertexNormals.concat(carJson[nombre]["normales"]);
+		}
+	}
+	
+	gl.bufferData(gl.ARRAY_BUFFER, 
+			new Float32Array(vertexNormals), 
+			gl.STATIC_DRAW);
+			
+    pieceVertexNormalBuffer.itemSize = 3;
+    pieceVertexNormalBuffer.numItems = vertexNormals.length * 2;
+	
+	/// ELEMENTOS
 	
 	// Tiene indice de elementos?
 	var pieceVertexIndices = carJson[nombre]["indices"];
@@ -81,23 +135,39 @@ function drawEachPiece(nombre) {
 	// Establecemos los parametros de la pieza
 	drawPiece(nombre);
 	
-	mat4.translate(mvMatrix, carJson[nombre]["translate"]);
+	mat4.translate(mvMatrix, carJson[nombre]["translate"]);	
+	
+	// Simplemente la roto para ver que carajo tas dibujando
+	mat4.rotate(mvMatrix, degToRad(rRotacion), [1, 0, 0]);
 	
 	// Para la animacion
 	mvPushMatrix();
 
+	/// FIJAMOS LAS POSICIONES
+	
 	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexPositionBuffer);
 	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 
 			pieceVertexPositionBuffer.itemSize, 
 			gl.FLOAT, false, 0, 0);
 
+	/// FIJAMOS LOS COLORES
+	
 	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexColorBuffer);
 	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 
 			pieceVertexColorBuffer.itemSize, 
 			gl.FLOAT, false, 0, 0);
 
-	setMatrixUniforms();
+	/// FIJAMOS LAS NORMALES
+	
+	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 
+			pieceVertexNormalBuffer.itemSize, 
+			gl.FLOAT, false, 0, 0);
 
+	lighting();
+	
+	setMatrixUniforms();
+	
 	// Dibujamos dependiendo de si tiene indice de elementos o no
 	if (pieceHasIndex) {
 		gl.drawElements(gl.TRIANGLES, 
@@ -113,7 +183,7 @@ function drawEachPiece(nombre) {
 
 function drawCar() {
 	
-	/// LUEGO DIBUJO
+	/// LUEGO ESTABLEZCO LA PANTALLA
 
 	// Decimos a webGL sobre el size del canvas que estamos usando
 	gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -130,19 +200,33 @@ function drawCar() {
 	// Establecemos parametros de dibujo.
 	mat4.identity(mvMatrix);
 	
+	/// Y DIBUJAMOS
+	
+	mvPushMatrix();
+	
 	drawEachPiece("chasis");
+	
+	mvPopMatrix();
 }
 
 /// PARA HACER LA ANIMACION
 
+var lastTime = 0;
+
 function animate() {
 	var timeNow = new Date().getTime();
+	
+	if (lastTime != 0) {
+		var elapsed = timeNow - lastTime;
 
+		rRotacion += (90 * elapsed) / 1000.0;		
+	}
+	
 	lastTime = timeNow;
 }
 
 function tick() {
-	//requestAnimFrame(tick);
+	requestAnimFrame(tick);
 	drawCar();
 	animate();
 }
