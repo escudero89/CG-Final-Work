@@ -1,10 +1,10 @@
 /* COLORES: 
- * blanco: #DFEFF2
- * gris: #B8D3D9
- * dark-gris: #6C898C
- * dark: #1C2526
- * colorful: #F26E50
-/* =============================================================================
+ * blanco: #E1E7E8
+ * gris: #A3ABAF
+ * azul: #37646F
+ * azul-oscuro: #1B2B32
+ * rojo: #B22E2F
+ /* =============================================================================
    HTML5 element display
    ========================================================================== */
 
@@ -25,8 +25,8 @@ html {
 	-ms-text-size-adjust: 100%; 
 }
 
-body { 
-	background-color: #DFEFF2;
+body { 	
+	background: url("1411.png") repeat;
 	font-size: 13px; 
 	height: 100%;
 	line-height: 1.231; 
@@ -35,10 +35,10 @@ body {
  
 body, button, input, select, textarea { 
 	font-family: verdana, sans-serif; 
-	color: #1C2526; 
+	color: #1B2B32; 
 }
 
-#container {
+div#container {
 	margin-left: auto;
 	margin-right: auto;
 	min-height: 100%;
@@ -52,21 +52,21 @@ div#main {
 }
 
 div #diapositiva {
-	background-color: #B8D3D9;
-	border: 1px solid #6C898C;
+	background-color: #E1E7E8;
+	border: 1px solid #37646F;
 	border-radius: 20px;
 	float: left;
 	height: auto;
-	margin: 22px;
-	padding: 20px 20px;
+	margin: 2.5% 0;
+	padding: 20px 5%;
 	position: relative;
 	text-align: justify;
-	width: 90%;
+	width: 89%;
 }
 
 footer {
-	background-color: #B8D3D9;
-	border-top: 1px solid #6C898C;
+	background-color: #E1E7E8;
+	border-top: 1px solid #37646F;
 	clear:both;
 	height: 50px;
 	margin-top: -50px; /* negative value of footer height */
@@ -76,24 +76,20 @@ footer {
 
 /* Para templates */
 #diapositiva h1 {
-	color: #F26E50;
+	color: #B22E2F;
 	text-transform: uppercase;
 }
 
 #diapositiva h2 {
-	color: #6C898C;
+	color: #37646F;
 }
 
 #diapositiva h1, h2 {
 	text-align: center;
 }
-
 #diapositiva h3 {
-	border-top: 1px solid black;
-	margin: 10px;
-	padding-top: 10px;
+	padding: 15px 0;
 }
-
 #diapositiva h3, #diapositiva p, #diapositiva ul {
 	font-size: 16px;
 }
@@ -119,7 +115,41 @@ footer {
 	border-radius: 15px;
 }
 
+#diapositiva .box {
+	background-color: #A3ABAF;
+	border: 1px solid #1B2B32;	
+	border-radius: 10px;
+	color: #1B2B32;
+	font-weight: bold;
+	margin: 2em 0;	
+}
+#diapositiva .box p {
+	padding: 0 1.5em;
+}
+
+#diapositiva .box h3 {
+	background-color: #37646F;
+	border-bottom: 1px solid #1B2B32;
+	border-radius:  10px 10px 0 0;
+	color: white;
+	margin: 0;
+	padding: 5px;
+	text-transform: uppercase;	
+}
+
 #diapositiva ul {
-	color: #6C898C;
+	color: #37646F;
+	line-height: 1.8em;
 	list-style: square;
+	margin: 20px 0;
+}
+
+#diapositiva .listaAcostada li {
+	background-color: #B22E2F;
+	border-radius: 10px;
+	color: white;
+	display: inline;
+	list-style-type: none;
+	margin: 10px 20px;
+	padding: 10px 20px;
 }
