@@ -108,3 +108,7 @@ footer {
 #diapositiva .imgMediana .right {
 	float: right;
 }
+
+#diapositiva canvas {
+	border-radius: 15px;
+}

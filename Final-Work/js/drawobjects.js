@@ -183,7 +183,7 @@ function tick() {
 function drawCarScene() {
 	
 	// Limpiamos la pantalla
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	gl.clearColor(0.1, 0.09, 0.09, 1.0);
     gl.enable(gl.DEPTH_TEST);
    
     tick();
