@@ -18,7 +18,8 @@
 		"page/webgl.html",
 		"page/intro.html",
 		"page/monkey.html",
-		"page/example.html"
+		"page/example.html",
+		"page/repositorio.html"
 			],
 		
 		"cubo":{

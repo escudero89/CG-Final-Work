@@ -49,12 +49,14 @@ div#main {
 	height: 100%;
 	overflow:auto;
 	padding-bottom: 50px;
+	position: relative;
 }
 
 div #diapositiva {
 	background-color: #E1E7E8;
 	border: 1px solid #37646F;
 	border-radius: 20px;
+	display:none;
 	float: left;
 	height: auto;
 	margin: 2.5% 0;

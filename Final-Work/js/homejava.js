@@ -13,18 +13,16 @@ if ( step_url.search("diap&") === -1 ) {
 currentDiapositiva = parseInt(step_url.substr(step_url.search("diap&") + 5, 2));
 
 function cambiarDiapositiva(incremento, first) {
-	
 
-			
-		if (!first) {
-			if (incremento) {
-				currentDiapositiva += 1;  
-			} else if (currentDiapositiva > 0) {
-				currentDiapositiva -= 1;
-			}
-			window.location.href = step_url.substring(0, step_url.search("diap") - 1) + "?diap&" + parseInt(currentDiapositiva);
+	if (!first) {
+		if (incremento) {
+			currentDiapositiva += 1;  
+		} else if (currentDiapositiva > 0) {
+			currentDiapositiva -= 1;
 		}
-$("#diapositiva").fadeOut('normal', function() {						
+		window.location.href = step_url.substring(0, step_url.search("diap") - 1) + "?diap&" + parseInt(currentDiapositiva);
+	}
+	$("#diapositiva, #contador").fadeOut('normal', function() {						
 		// Llamamos a car.json para que nos de una mano almacenando cosas
 		$.getJSON('js/car.json', function(data) {
 			// Guardamos mi carJson
@@ -37,7 +35,8 @@ $("#diapositiva").fadeOut('normal', function() {
 				} else {
 					webGLStop();
 				}
-				$("#diapositiva").fadeIn('normal');
+				$("#contador").html("#diapositiva: " + (parseInt(currentDiapositiva) + 1));
+				$("#diapositiva, #contador").fadeIn('normal');
 			});			
 		});	
 	});		
@@ -52,7 +51,7 @@ $(document).keydown(function(e){
 		cambiarDiapositiva(true);
 		return false;
 	}
-	
+
 	if (e.keyCode === 67 || e.keyCode == 99) { // tecla C
 		objetoPosicion += 1;
 		if (objetoPosicion >= carJson["objetos"].length) {
