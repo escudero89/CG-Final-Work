@@ -88,7 +88,13 @@ footer {
 	text-align: center;
 }
 
-#diapositiva h3, #diapositiva p {
+#diapositiva h3 {
+	border-top: 1px solid black;
+	margin: 10px;
+	padding-top: 10px;
+}
+
+#diapositiva h3, #diapositiva p, #diapositiva ul {
 	font-size: 16px;
 }
 
@@ -111,4 +117,9 @@ footer {
 
 #diapositiva canvas {
 	border-radius: 15px;
+}
+
+#diapositiva ul {
+	color: #6C898C;
+	list-style: square;
 }
