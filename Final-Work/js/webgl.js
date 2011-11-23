@@ -132,3 +132,7 @@ function webGLStart() {
 	// Dibujo
 	drawCarScene();
 }
+
+function webGLStop() {
+	requestAnimFrame();
+}

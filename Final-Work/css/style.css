@@ -55,9 +55,13 @@ div #diapositiva {
 	background-color: #B8D3D9;
 	border: 1px solid #6C898C;
 	border-radius: 20px;
+	float: left;
 	height: auto;
 	margin: 22px;
-	padding: 0 20px;
+	padding: 20px 20px;
+	position: relative;
+	text-align: justify;
+	width: 90%;
 }
 
 footer {
@@ -71,4 +75,36 @@ footer {
 }
 
 /* Para templates */
+#diapositiva h1 {
+	color: #F26E50;
+	text-transform: uppercase;
+}
 
+#diapositiva h2 {
+	color: #6C898C;
+}
+
+#diapositiva h1, h2 {
+	text-align: center;
+}
+
+#diapositiva h3, #diapositiva p {
+	font-size: 16px;
+}
+
+#diapositiva .imgGrande {
+	border-radius: 10px;
+	text-align: center;
+	width: 100%;
+}
+
+#diapositiva .imgMediana {
+	border-radius: 10px;
+	float: left;
+	text-align: center;
+	width: 50%;
+}
+
+#diapositiva .imgMediana .right {
+	float: right;
+}
