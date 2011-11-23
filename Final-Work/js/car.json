@@ -8,6 +8,9 @@
 
 	"orden":[
 		"page/tecnologias_web3d.html",
+		"page/queEsWebGL.html",
+		"page/unPocoDeHistoria.html",
+		"page/imgKhronosGroupMembers.html",
 		"page/webgl.html",
 		"page/intro.html",
 		"page/monkey.html",
@@ -1601,3 +1604,4 @@
 			}
 
 }
+
