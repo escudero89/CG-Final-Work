@@ -1,3 +1,7 @@
+/// Para dibujar distintos objetos
+var objetoRepresentar,
+	objetoPosicion = 0; 
+	
 var currentDiapositiva = -1,
 	carJson; // mi variable global json para el auto
 
@@ -18,6 +22,7 @@ function cambiarDiapositiva(incremento) {
 
 			$("#diapositiva").load(carJson["orden"][currentDiapositiva], function() {
 				if (carJson["orden"][currentDiapositiva] === "page/webgl.html") {
+					objetoRepresentar = carJson["objetos"][objetoPosicion]; // inicializamos
 					webGLStart(); // una vez cargado, iniciamos el webGL
 				} else {
 					webGLStop();
@@ -38,5 +43,13 @@ $(document).keydown(function(e){
 	} else if (e.keyCode === 39 || e.keyCode === 34) { // right key or avpag
 		cambiarDiapositiva(true);
 		return false;
+	}
+	
+	if (e.keyCode === 67 || e.keyCode == 99) { // tecla C
+		objetoPosicion += 1;
+		if (objetoPosicion >= carJson["objetos"].length) {
+			objetoPosicion = 0;
+		}		
+		objetoRepresentar = carJson["objetos"][objetoPosicion];
 	}
 });

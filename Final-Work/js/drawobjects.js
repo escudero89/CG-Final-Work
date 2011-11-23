@@ -42,9 +42,9 @@ function drawPiece(nombre) {
 		
 	
 	// Si tiene un solo color, se lo aplicamos a todas las caras
-	if (carJson[nombre]["color"]) {
-		for (i = 0; i < pieceVertexPositionBuffer.numItems; i += 1){
-			colors = colors.concat(carJson[nombre]["color"]);			
+	if (!carJson[nombre]["colores"]) {
+		for (i = 0; i < pieceVertexPositionBuffer.numItems / 2; i += 1){
+			colors = colors.concat([1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0 ]);			
 		}
 	} else {	
 		// A todos los vértices los coloreamos igual
@@ -53,6 +53,7 @@ function drawPiece(nombre) {
 				colors = colors.concat(carJson[nombre]["colores"][i]);							
 			}
 		}
+		console.log(colors);
 	}
      
 	gl.bufferData(gl.ARRAY_BUFFER, 
@@ -89,13 +90,11 @@ function drawEachPiece(nombre) {
 	/// ESTABLECEMOS LOS OBJETOS
 	// Establecemos los parametros de la pieza
 	drawPiece(nombre);
-	
-	if (carJson[nombre]["translate"].length) { // si existe, trasladamos	
-		mat4.translate(mvMatrix, carJson[nombre]["translate"]);	
-	}
+		
+	mat4.translate(mvMatrix, [0.0, 0.0, -7.0]);
 	
 	// Simplemente la roto para ver que carajo tas dibujando
-	mat4.rotate(mvMatrix, degToRad(rRotacion), [1, 0, 0]);
+	mat4.rotate(mvMatrix, degToRad(rRotacion), [1, 1, 0]);
 	
 	// Para la animacion
 	mvPushMatrix();
@@ -152,7 +151,7 @@ function drawCar() {
 	
 	mvPushMatrix();
 	
-	drawEachPiece("cubo");
+	drawEachPiece(objetoRepresentar);
 	
 	mvPopMatrix();
 }
