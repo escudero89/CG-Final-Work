@@ -8,38 +8,6 @@ var pieceVertexPositionBuffer,
 	/// normales para la iluminacion
 	pieceVertexNormalBuffer;
 
-/// SE ENCARGA DE LA ILUMINACION
-function lighting() {
-	
-	// seteamos la luz ambiente
-	gl.uniform3f(
-        shaderProgram.ambientColorUniform,
-        carJson["iluminacion"]["ambiente"][0],
-        carJson["iluminacion"]["ambiente"][1],
-        carJson["iluminacion"]["ambiente"][2]
-      );
-     
-	// y la difusa o direccional
-	gl.uniform3f(
-		shaderProgram.directionalColorUniform,
-		carJson["iluminacion"]["difusa"][0],
-        carJson["iluminacion"]["difusa"][1],
-        carJson["iluminacion"]["difusa"][2]
-	);
-      
-	var lightingDirection = [
-		carJson["iluminacion"]["direccion"][0],
-        carJson["iluminacion"]["direccion"][1],
-        carJson["iluminacion"]["direccion"][2]
-	];
-	
-	var adjustedLD = vec3.create();
-	vec3.normalize(lightingDirection, adjustedLD);
-	vec3.scale(adjustedLD, -1);
-	
-	gl.uniform3fv(shaderProgram.lightingDirectionUniform, adjustedLD);
-}
-
 function drawPiece(nombre) {
 	
 	/// POSICIÓN
@@ -60,7 +28,7 @@ function drawPiece(nombre) {
 	// Y creamos dos variables para almacenar los tamaños y cantidad de 
 	// vértices
 	pieceVertexPositionBuffer.itemSize = 3;
-	pieceVertexPositionBuffer.numItems = vertices.length / 3;
+	pieceVertexPositionBuffer.numItems = vertices.length / 3;	
 		
 	/// COLOR
 	
@@ -70,13 +38,20 @@ function drawPiece(nombre) {
 	
 	// Ahora vamos a por definir el color
 	var i, j, colors = [],
-		iHasta = pieceVertexPositionBuffer.numItems / 
-				pieceVertexPositionBuffer.itemSize;
+		iHasta = pieceVertexPositionBuffer.numItems / 4;
+		
 	
-	// A todos los vértices los coloreamos igual
-	for (i = 0; i < iHasta; i += 1) {
-		for (j=0; j < 4; j++) { // 4 por rgba
-			colors = colors.concat(carJson[nombre]["colores"][i]);			
+	// Si tiene un solo color, se lo aplicamos a todas las caras
+	if (carJson[nombre]["color"]) {
+		for (i = 0; i < pieceVertexPositionBuffer.numItems; i += 1){
+			colors = colors.concat(carJson[nombre]["color"]);			
+		}
+	} else {	
+		// A todos los vértices los coloreamos igual
+		for (i = 0; i < iHasta; i += 1) {
+			for (j=0; j < 4; j++) { // 4 por rgba
+				colors = colors.concat(carJson[nombre]["colores"][i]);							
+			}
 		}
 	}
      
@@ -88,32 +63,13 @@ function drawPiece(nombre) {
 	// Y creamos dos variables para almacenar los tamaños y colores
 	pieceVertexColorBuffer.itemSize = 4; // por rgba.
 	pieceVertexColorBuffer.numItems = colors.length / 4;
-	
-	/// NORMALES
-	pieceVertexNormalBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexNormalBuffer);
-	
-	var vertexNormals = [];
-	
-	for (i = 0; i < iHasta; i += 1) {
-		for (j = 0; j < iHasta; j += 1) {
-			vertexNormals = vertexNormals.concat(carJson[nombre]["normales"]);
-		}
-	}
-	
-	gl.bufferData(gl.ARRAY_BUFFER, 
-			new Float32Array(vertexNormals), 
-			gl.STATIC_DRAW);
-			
-    pieceVertexNormalBuffer.itemSize = 3;
-    pieceVertexNormalBuffer.numItems = vertexNormals.length * 2;
-	
+		
 	/// ELEMENTOS
 	
 	// Tiene indice de elementos?
 	var pieceVertexIndices = carJson[nombre]["indices"];
 	
-	if ( pieceVertexIndices.length ) {
+	if ( pieceVertexIndices ) {
 		pieceHasIndex = true;
 		
 		pieceVertexIndexBuffer = gl.createBuffer();
@@ -123,7 +79,7 @@ function drawPiece(nombre) {
 				new Uint16Array(pieceVertexIndices), 
 				gl.STATIC_DRAW);
 
-		pieceVertexIndexBuffer.itemSize = 1;
+		pieceVertexIndexBuffer.itemSize = 1;		
 		pieceVertexIndexBuffer.numItems = pieceVertexIndices.length;		
 	}
 	
@@ -134,7 +90,9 @@ function drawEachPiece(nombre) {
 	// Establecemos los parametros de la pieza
 	drawPiece(nombre);
 	
-	mat4.translate(mvMatrix, carJson[nombre]["translate"]);	
+	if (carJson[nombre]["translate"].length) { // si existe, trasladamos	
+		mat4.translate(mvMatrix, carJson[nombre]["translate"]);	
+	}
 	
 	// Simplemente la roto para ver que carajo tas dibujando
 	mat4.rotate(mvMatrix, degToRad(rRotacion), [1, 0, 0]);
@@ -155,15 +113,6 @@ function drawEachPiece(nombre) {
 	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 
 			pieceVertexColorBuffer.itemSize, 
 			gl.FLOAT, false, 0, 0);
-
-	/// FIJAMOS LAS NORMALES
-	
-	gl.bindBuffer(gl.ARRAY_BUFFER, pieceVertexNormalBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 
-			pieceVertexNormalBuffer.itemSize, 
-			gl.FLOAT, false, 0, 0);
-
-	lighting();
 	
 	setMatrixUniforms();
 	
@@ -203,7 +152,7 @@ function drawCar() {
 	
 	mvPushMatrix();
 	
-	drawEachPiece("chasis");
+	drawEachPiece("cubo");
 	
 	mvPopMatrix();
 }
