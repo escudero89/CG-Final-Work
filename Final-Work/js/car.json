@@ -8,6 +8,7 @@
 
 	"orden":[
 		"page/webgl.html",
+		"page/tecnologias_web3d.html",
 		"page/intro.html",
 		"page/monkey.html",
 		"page/example.html"
