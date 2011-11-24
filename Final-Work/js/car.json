@@ -13,12 +13,16 @@
 		"page/unPocoDeHistoria.html",
 		"page/imgKhronosGroupMembers.html",
 		"page/descripcion.html",
-		"page/imgRamificacion.html",
+		"page/imgRamificacion.html",		
+		"page/webGLInside.html",
+		"page/ejemCodigoCanvas.html",
+		"page/ejemCodigo2.html",
 		"page/compatibilidad.html",
 		"page/webGLandOpenGL.html",
+		"page/ejemplos.html",
+		"page/nuestraImplementacion.html",		
 		"page/webgl.html",
 		"page/monkey.html",
-		"page/example.html",
 		"page/repositorio.html"
 			],
 		
