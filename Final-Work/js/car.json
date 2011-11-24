@@ -7,6 +7,7 @@
 	],
 
 	"orden":[
+		"page/intro.html",
 		"page/tecnologias_web3d.html",
 		"page/queEsWebGL.html",
 		"page/unPocoDeHistoria.html",
@@ -16,7 +17,6 @@
 		"page/compatibilidad.html",
 		"page/webGLandOpenGL.html",
 		"page/webgl.html",
-		"page/intro.html",
 		"page/monkey.html",
 		"page/example.html",
 		"page/repositorio.html"
