@@ -18,9 +18,12 @@
 		"page/compatibilidad.html",
 		"page/webGLandOpenGL.html",
 		"page/ejemplos.html",
+		"page/codigo.html",		
 		"page/codigo00.html",		
 		"page/codigo01.html",		
 		"page/codigo02.html",		
+		"page/codigo03.html",		
+		"page/codigo04.html",	
 		"page/webgl.html",
 		"page/monkey.html",
 		"page/repositorio.html"
