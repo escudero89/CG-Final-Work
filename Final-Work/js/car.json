@@ -17,7 +17,7 @@
 		"page/webGLInside.html",		
 		"page/compatibilidad.html",
 		"page/webGLandOpenGL.html",
-		"page/ejemplos.html",
+		
 		"page/codigo.html",		
 		"page/codigo00.html",		
 		"page/codigo01.html",		
@@ -25,7 +25,12 @@
 		"page/codigo03.html",		
 		"page/codigo04.html",	
 		"page/webgl.html",
+		"page/ejemplos.html",		
 		"page/monkey.html",
+		"page/ejemplo0.html",
+		"page/ejemplo1.html",
+		"page/ejemplo2.html",
+		"page/ejemplo3.html",
 		"page/repositorio.html"
 			],
 		
