@@ -135,5 +135,5 @@ function webGLStart() {
 }
 
 function webGLStop() {
-	requestAnimFrame();
+//	requestAnimFrame();
 }
